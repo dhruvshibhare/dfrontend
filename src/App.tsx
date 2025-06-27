@@ -35,7 +35,7 @@ function App() {
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream | null>(null);
 
-  const { socket, isConnected } = useSocket('http://localhost:3001');
+  const { socket, isConnected } = useSocket('https://dbackend-xv7g.onrender.com');
   const { 
     createOffer, 
     createAnswer, 
