@@ -1,4 +1,3 @@
-import React from 'react';
 import { Wifi, WifiOff, Video, VideoOff, Mic, MicOff } from 'lucide-react';
 import { ConnectionState } from '../App';
 

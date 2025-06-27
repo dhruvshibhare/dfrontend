@@ -1,4 +1,3 @@
-import React from 'react';
 import { Video, MessageCircle, Users, Shield, Wifi, WifiOff } from 'lucide-react';
 
 interface WelcomeScreenProps {

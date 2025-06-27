@@ -51,7 +51,7 @@ export function useWebRTC(
     return peerConnection;
   }, [localVideoRef, remoteVideoRef]);
 
-  const createOffer = useCallback(async (roomId: string) => {
+  const createOffer = useCallback(async () => {
     try {
       const peerConnection = createPeerConnection();
       const offer = await peerConnection.createOffer({

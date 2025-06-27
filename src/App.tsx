@@ -52,7 +52,7 @@ function App() {
       setCurrentRoom(roomId);
       setConnectionState(prev => ({ ...prev, status: 'connected' }));
       addMessage('Stranger connected!', 'system');
-      const offer = await createOffer(roomId);
+      const offer = await createOffer();
       if (offer) {
         socket.emit('webrtc-offer', { roomId, offer });
       }
