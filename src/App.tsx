@@ -147,9 +147,16 @@ function App() {
         errorMessage += 'Please allow camera and microphone permissions and try again.';
       } else if (err.name === 'NotFoundError') {
         errorMessage += 'No camera or microphone found.';
+      } else if (err.name === 'NotReadableError') {
+        errorMessage += 'Camera or microphone is already in use by another application.';
+      } else if (err.name === 'OverconstrainedError') {
+        errorMessage += `The requested media constraints cannot be satisfied: ${err.constraint}`;
+      } else if (err.name === 'SecurityError') {
+        errorMessage += 'Camera/mic access is not allowed due to browser security settings.';
       } else {
         errorMessage += 'Please check your camera and microphone settings.';
       }
+      errorMessage += `\nError details: ${err.name} - ${err.message}`;
       alert(errorMessage);
       setConnectionState(prev => ({ ...prev, status: 'disconnected' }));
     }
