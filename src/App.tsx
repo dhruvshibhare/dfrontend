@@ -40,7 +40,8 @@ function App() {
     createOffer, 
     createAnswer, 
     addAnswer, 
-    addIceCandidate
+    addIceCandidate,
+    addLocalTracks
   } = useWebRTC(localVideoRef, remoteVideoRef);
 
   useEffect(() => {
@@ -129,6 +130,7 @@ function App() {
       });
       console.log('[App] Got media stream:', stream);
       localStreamRef.current = stream;
+      addLocalTracks(stream);
       setConnectionState({
         status: 'connecting',
         hasVideo: stream.getVideoTracks().length > 0,
