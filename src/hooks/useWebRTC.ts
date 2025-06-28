@@ -50,6 +50,15 @@ export function useWebRTC(
     return peerConnection;
   }, [localVideoRef, remoteVideoRef]);
 
+  // New: Add local tracks after peer connection is created and stream is available
+  const addLocalTracks = useCallback((stream: MediaStream) => {
+    if (peerConnectionRef.current) {
+      stream.getTracks().forEach(track => {
+        peerConnectionRef.current!.addTrack(track, stream);
+      });
+    }
+  }, []);
+
   const createOffer = useCallback(async () => {
     try {
       const peerConnection = createPeerConnection();
@@ -128,11 +137,13 @@ export function useWebRTC(
     }
   }, [remoteVideoRef]);
 
+  console.log('useWebRTC loaded, addLocalTracks:', addLocalTracks);
   return {
     createOffer,
     createAnswer,
     addAnswer,
     addIceCandidate,
-    setRemoteStream
+    setRemoteStream,
+    addLocalTracks
   };
 }
