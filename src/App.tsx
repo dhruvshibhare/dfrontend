@@ -130,6 +130,7 @@ function App() {
       });
       console.log('[App] Got media stream:', stream);
       localStreamRef.current = stream;
+      console.log('[App] addLocalTracks type:', typeof addLocalTracks, addLocalTracks);
       addLocalTracks(stream);
       setConnectionState({
         status: 'connecting',
