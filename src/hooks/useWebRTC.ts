@@ -14,9 +14,8 @@ export function useWebRTC(
 
   const createPeerConnection = useCallback(() => {
     if (peerConnectionRef.current) {
-      peerConnectionRef.current.close();
+      return peerConnectionRef.current;
     }
-
     const peerConnection = new RTCPeerConnection({
       iceServers: ICE_SERVERS
     });
@@ -92,14 +91,17 @@ export function useWebRTC(
   const addAnswer = useCallback(async (answer: RTCSessionDescriptionInit) => {
     try {
       if (peerConnectionRef.current) {
-        await peerConnectionRef.current.setRemoteDescription(answer);
-        
-        // Process queued ICE candidates
-        while (iceCandidatesQueue.current.length > 0) {
-          const candidate = iceCandidatesQueue.current.shift();
-          if (candidate) {
-            await peerConnectionRef.current.addIceCandidate(candidate);
+        // Only set remote answer if signalingState is 'have-local-offer'
+        if (peerConnectionRef.current.signalingState === 'have-local-offer') {
+          await peerConnectionRef.current.setRemoteDescription(answer);
+          while (iceCandidatesQueue.current.length > 0) {
+            const candidate = iceCandidatesQueue.current.shift();
+            if (candidate) {
+              await peerConnectionRef.current.addIceCandidate(candidate);
+            }
           }
+        } else {
+          console.warn('Skipping setRemoteDescription(answer) because signalingState is', peerConnectionRef.current.signalingState);
         }
       }
     } catch (error) {
